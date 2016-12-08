@@ -88,3 +88,66 @@ define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/');
 ## 7-4
 - [WordPress Salt產生器](https://api.wordpress.org/secret-key/1.1/salt/)
 
+## 8-2
+- [Elastic Beanstalk Application Update]( http://docs.aws.amazon.com/getting-started/latest/wordpress/update-application-version.html)
+- [Amazon Web Service WordPress外掛](https://downloads.wordpress.org/plugin/amazon-web-services.1.0.zip)
+- 註8-3-1: [Elastic Beanstalk CLI安裝官方文件](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html)
+- 註8-3-2: [下載Python](https://www.python.org/downloads/)
+- 註8-3-3: [安裝pip](https://pip.pypa.io/en/stable/installing/)
+- [WordPress Basic WP的.htaccess內容](https://codex.wordpress.org/htaccess)
+
+```
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+```
+  
+
+## 9-2
+- 註9-2-1: [AWS全球 Edge Location](https://aws.amazon.com/tw/cloudfront/details/#edge-locations)
+
+## 9-3
+- 註9-3-1: [WP Offload S3所需要的IAM權限](https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide/)
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:CreateBucket",
+        "s3:DeleteObject",
+        "s3:Put*",
+        "s3:Get*",
+        "s3:List*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::*"
+      ]
+    }
+  ]
+}
+```
+
+- 註9-3-2: [WP Offload S3外掛](https://deliciousbrains.com/wp-offload-s3/)
+- 註9-3-3: [AWS官方文件教如何使用W3 Total Cache將圖送到CloudFront](http://docs.aws.amazon.com/getting-started/latest/wordpress/deploy-wordpress-on-aws.html)
+- 註9-3-4: [W3 Total Cache外掛](https://wordpress.org/plugins/w3-total-cache/)
+- 編輯wp-config.php將AWS Key傳入
+
+```
+/**
+* AWS plugin key setting
+*/
+define( 'DBI_AWS_ACCESS_KEY_ID', $_SERVER['AWS_ACCESS_KEY_ID'] );
+define( 'DBI_AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_ACCESS_KEY'] );
+```
+
+
