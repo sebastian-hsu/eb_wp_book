@@ -150,4 +150,24 @@ define( 'DBI_AWS_ACCESS_KEY_ID', $_SERVER['AWS_ACCESS_KEY_ID'] );
 define( 'DBI_AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_ACCESS_KEY'] );
 ```
 
+## 11-2
+- 編輯wp-config.php讓網站支援SSL
+
+加在檔案前面
+```
+if (( $_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO'] == 'https' ) || ( $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )) {
+ $_SERVER['HTTPS'] = 'on';
+}
+```
+
+另外找到以下程式碼，把http改成https
+```
+define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST'] . '/');
+define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/');
+```
+
+## 12-2
+- 註12-2-1: [處理SES Bounces and Complaints](http://docs.aws.amazon.com/ses/latest/DeveloperGuide/best-practices-bounces-complaints.html)
+- 註12-2-1: [電子豹架構大解密：Java + AWS 打造企業級電子報發送系統 by 張國基 - JCConf 2016 R0 Day1-6](https://youtu.be/B4g2IaYs3Zk?t=7m59s)
+- [WP Mail SMTP](https://wordpress.org/plugins/wp-mail-smtp/)
 
