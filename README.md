@@ -178,19 +178,19 @@ $ pip install --upgrade --user awsebcli
 ```
 - 在Linux下把eb加到PATH環境變數
 
-1. 找到shell
+Step 1. 找到shell
 ```
 $ ls -a ~
 ```
-2. 加到shell
+Step 2. 加到shell
 ```shell
 export PATH=~/.local/bin:$PATH
 ```
-3. 載入profile
+Step 3. 載入profile
 ```
 $ source ~/.bash_profile
 ```
-4. 檢驗eb cli是否有成功
+Step 4. 檢驗eb cli是否有成功
 ```
 $ eb --version
 EB CLI 3.8.4 （Python 2.7.1）
@@ -223,23 +223,31 @@ RewriteRule . /index.php [L]
 
 #### 8-4-2	EB CLI搭配git的部署（deploy）
 - 只deploy還在staging區的code
-1. git add to staged area
+Step 1. git add to staged area
 ```
 ~/eb$ git add .
 ```
 
-2. eb deploy staged area code
+Step 2. eb deploy staged area code
 ```
 ~/eb$ eb deploy --staged
 ```
 
-## 9-2
-- 註9-2-1: [AWS全球 Edge Location](https://aws.amazon.com/tw/cloudfront/details/#edge-locations)
+## 第 9 章: 	加速傳輸你網站的多媒體內容
+## 9-2: 	簡介CloudFront
+- 註1: [AWS全球 Edge Location](https://aws.amazon.com/tw/cloudfront/details/#edge-locations)
+- 註2: [AWS CloudFront後端串接客製化URL](http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistS3AndCustomOrigins.html#concept_CustomOrigin)
+- 註3: [AWS CloudFront支援串流影音](http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-rtmp.html)
+- 註4: [AWS WAF](https://aws.amazon.com/tw/waf/)
+- 註5: [利用AWS WAF抵檔DDoS](http://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html)
 
-## 9-3
-- 註9-3-1: [WP Offload S3所需要的IAM權限](https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide/)
+## 9-3: 	多媒體內容上傳到S3並使用CloudFront 加速
+### 9-3-1	新建S3 Bucket
+- 註6: [S3 Bucket與Object示意圖](http://www.slideshare.net/AmazonWebServices/awsome-day-2016-module-2-infrastructure-services)
 
-```
+### 9-3-3	建立存取S3的權限設定
+- 註7: [WP Offload S3所需要的IAM權限](https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide/)
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -260,12 +268,14 @@ RewriteRule . /index.php [L]
 }
 ```
 
-- 註9-3-2: [WP Offload S3外掛](https://deliciousbrains.com/wp-offload-s3/)
-- 註9-3-3: [AWS官方文件教如何使用W3 Total Cache將圖送到CloudFront](http://docs.aws.amazon.com/getting-started/latest/wordpress/deploy-wordpress-on-aws.html)
+### 9-3-5	安裝WP Offload S3外掛
+- 註8: [AWS官方文件教如何使用W3 Total Cache將圖送到CloudFront](http://docs.aws.amazon.com/getting-started/latest/wordpress/deploy-wordpress-on-aws.html)
+- 註9: [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/)
+- 註10: [WP Offload S3](https://deliciousbrains.com/wp-offload-s3/)
 - 註9-3-4: [W3 Total Cache外掛](https://wordpress.org/plugins/w3-total-cache/)
-- 編輯wp-config.php將AWS Key傳入
+- 編輯[wp-config.php](src/wp-config.php)將AWS Key傳入
 
-```
+```php
 /**
 * AWS plugin key setting
 */
@@ -273,9 +283,21 @@ define( 'DBI_AWS_ACCESS_KEY_ID', $_SERVER['AWS_ACCESS_KEY_ID'] );
 define( 'DBI_AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_ACCESS_KEY'] );
 ```
 
-## 11-2
-- 編輯wp-config.php讓網站支援SSL
+## 第 10 章: 	幫網站做域名綁定
+### 10-1: 	簡介Route53
+- 註1: [AWS Route53 權重分流(Weighted Routing)](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-weighted)
+- 註2: [AWS Route53 依延遲時間為依據的分流(Latency-Based Routing)](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-latency)
+- 註3: [AWS Rotue53 依所處的地理位置來做的分流(Geolocation Routing)](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-geo)
+- 註4: [AWS宣佈支援倫敦區](https://aws.amazon.com/tw/about-aws/whats-new/2016/12/announcing-the-aws-europe-london-region/)
 
+## 第 11 章: 	申請SSL憑證，讓WordPress使用https
+### 11-1: 	簡介ACM
+- 註1: [AWS ACM 價錢](https://aws.amazon.com/tw/certificate-manager/pricing/) 
+- 註2: [AWS ACM 會自動幫你renew certificate並deploy至ELB](https://aws.amazon.com/tw/certificate-manager/faqs/)
+- 註3: [AWS ACM 朝匯入現存的certificate](http://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html)
+
+### 11-2: 	使用ACM申請SSL憑證
+- 編輯[wp-config.php](src/wp-config.php)讓網站支援SSL
 加在檔案前面
 ```
 if (( $_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO'] == 'https' ) || ( $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )) {
@@ -289,7 +311,39 @@ define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 ```
 
-## 12-2
-- 註12-2-1: [處理SES Bounces and Complaints](http://docs.aws.amazon.com/ses/latest/DeveloperGuide/best-practices-bounces-complaints.html)
+## 第 12 章: 	寄送不會被放到垃圾信的系統信件
+### 12-2: 	申請SES 
+- 註1: [處理SES Bounces and Complaints](http://docs.aws.amazon.com/ses/latest/DeveloperGuide/best-practices-bounces-complaints.html)
 - [WP Mail SMTP](https://wordpress.org/plugins/wp-mail-smtp/)
 
+### 12-3: 	設定WordPress SMTP來寄信
+- [WP Mail SMTP plugin](https://wordpress.org/plugins/wp-mail-smtp/)
+
+## 第 13 章: 	開發協同合作與上線部署
+### 13-2: 	藍綠燈部署避免環境升級停機
+- 註1: [Youtube - AWS re:Invent 2015 | (DVO401) Deep Dive into Blue/Green Deployments on AWS](https://www.youtube.com/watch?v=aX54mhZbN58)
+
+
+## 第 14 章: 	隨時掌控你網站的狀態
+### 14-1: 	使用Elastic Beanstalk監控
+- 註1: [CloudWatch Metrics](http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/viewing_metrics_with_cloudwatch.html)
+
+### 14-2: 	運用CloudWatch監控RDS
+- 註2: [Monitoring Amazon RDS](http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Monitoring.html)
+
+### 14-4: 	使用CloudWatch Logs監控access_log並偵測XML-RPC攻擊
+#### 14-4-1	同步access_log到CloudWatch Logs
+- 註3: [AWS CloudWatch 價格](https://aws.amazon.com/tw/cloudwatch/pricing/)
+
+#### 14-4-2	過濾XML-RPC攻擊
+- 註4: [AWS CloudWatch Logs的Filter Pattern](http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html)
+- 註5: [Cerber Security & Limit Login Attempts WordPress Plugin](https://wordpress.org/plugins/wp-cerber/)
+- 註6: [關閉WordPress XML-RPC](http://wordpress.blog.tw/disable-xml-rpc/)
+- 註7: [How to Configure Rate-Based Blacklisting with AWS WAF and AWS Lambda](https://aws.amazon.com/tw/blogs/security/how-to-configure-rate-based-blacklisting-with-aws-waf-and-aws-lambda/)
+
+## 第 15 章: 	掌控AWS花費
+### 15-1: 	隨需付費方式與預留執行付費方式
+- 註1: [EC2計費模式](https://aws.amazon.com/tw/ec2/pricing/)
+- 註2: [在AWS Marketplace賣EC2 Reserved Instance](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-selling-guide.html)
+- 註3: [預留EC2實的費用](https://aws.amazon.com/tw/ec2/pricing/reserved-instances/pricing/)
+- 

@@ -60,6 +60,9 @@ define('NONCE_SALT',       $_SERVER["NONCE_SALT"]);
 define( 'DBI_AWS_ACCESS_KEY_ID', $_SERVER['AWS_ACCESS_KEY_ID'] );
 define( 'DBI_AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_ACCESS_KEY'] );
 
+/**
+ * 要注意在沒有SSL certificate前這裡會是http喔
+ */
 define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 
