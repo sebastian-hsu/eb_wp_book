@@ -8,9 +8,9 @@
 - [本書適合對象](#%E6%9C%AC%E6%9B%B8%E9%81%A9%E5%90%88%E5%B0%8D%E8%B1%A1)
 - [第1章:實際營運中的WordPress](#%E7%AC%AC1%E7%AB%A0%E5%AF%A6%E9%9A%9B%E7%87%9F%E9%81%8B%E4%B8%AD%E7%9A%84wordpress)
   - [1-2:為何選用雲端服務](#1-2%E7%82%BA%E4%BD%95%E9%81%B8%E7%94%A8%E9%9B%B2%E7%AB%AF%E6%9C%8D%E5%8B%99)
-- [第 2 章: 簡介AWS](#%E7%AC%AC-2-%E7%AB%A0-%09%E7%B0%A1%E4%BB%8Baws)
-  - [2-1: 簡介AWS](#2-1-%09%E7%B0%A1%E4%BB%8Baws)
-  - [2-2: 	為何選用AWS](#2-2-%09%E7%82%BA%E4%BD%95%E9%81%B8%E7%94%A8aws)
+- [第2章:簡介AWS](#%E7%AC%AC-2-%E7%AB%A0-%09%E7%B0%A1%E4%BB%8Baws)
+  - [2-1:簡介AWS](#2-1-%09%E7%B0%A1%E4%BB%8Baws)
+  - [2-2: 為何選用AWS](#2-2-%09%E7%82%BA%E4%BD%95%E9%81%B8%E7%94%A8aws)
   - [2-3: 	AWS基本觀念Region與AZ](#2-3-%09aws%E5%9F%BA%E6%9C%AC%E8%A7%80%E5%BF%B5region%E8%88%87az)
 - [第 3 章: 	使用AWS準備動作](#%E7%AC%AC-3-%E7%AB%A0-%09%E4%BD%BF%E7%94%A8aws%E6%BA%96%E5%82%99%E5%8B%95%E4%BD%9C)
   - [3-1: 	註冊一個AWS帳號](#3-1-%09%E8%A8%BB%E5%86%8A%E4%B8%80%E5%80%8Baws%E5%B8%B3%E8%99%9F)
@@ -84,8 +84,8 @@
 - 註3: [Amazon RDS 僅供讀取複本](https://aws.amazon.com/tw/rds/details/read-replicas/)
 - 註4: [Amazon RDS 異地同步備份部署](https://aws.amazon.com/tw/rds/details/multi-az/)
 
-## 第 2 章: 	簡介AWS
-### 2-1: 	簡介AWS 
+## 第 2 章: 簡介AWS
+### 2-1: 簡介AWS 
 - 註1: [Quora - 什麼是AWS的第一個公開服務](https://www.quora.com/What-was-the-first-AWS-service)
 - 註2: [SlideShare - AWS服務的成長速度](http://www.slideshare.net/AmazonWebServices/awsome-day-2016-module-1-aws-introduction-and-history001-aws-introduction-and-history-sjcole)
 - 註3: [SlideShare - 截至2016年AWS所提供的服務個數](http://www.slideshare.net/AmazonWebServices/awsome-day-2016-module-1-aws-introduction-and-history001-aws-introduction-and-history-sjcole)
