@@ -371,14 +371,14 @@ define( 'DBI_AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_ACCESS_KEY'] );
 ### 11-2: 使用ACM申請SSL憑證
 - 編輯[wp-config.php](src/wp-config.php)讓網站支援SSL
 加在檔案前面
-```
+```php
 if (( $_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO'] == 'https' ) || ( $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )) {
  $_SERVER['HTTPS'] = 'on';
 }
 ```
 
 另外找到以下程式碼，把http改成https
-```
+```php
 define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 ```
@@ -418,4 +418,4 @@ define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 - 註1: [EC2計費模式](https://aws.amazon.com/tw/ec2/pricing/)
 - 註2: [在AWS Marketplace賣EC2 Reserved Instance](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-selling-guide.html)
 - 註3: [預留EC2實的費用](https://aws.amazon.com/tw/ec2/pricing/reserved-instances/pricing/)
-- 
+
