@@ -177,19 +177,20 @@ define('DISALLOW_FILE_MODS',true);
 $ pip install --upgrade --user awsebcli
 ```
 - 在Linux下把eb加到PATH環境變數
-1. Step1: 找到shell
+
+1. 找到shell
 ```
 $ ls -a ~
 ```
-2. Step2: 加到shell
+2. 加到shell
 ```shell
 export PATH=~/.local/bin:$PATH
 ```
-3. Step3: 載入profile
+3. 載入profile
 ```
 $ source ~/.bash_profile
 ```
-4. Step4: 檢驗eb cli是否有成功
+4. 檢驗eb cli是否有成功
 ```
 $ eb --version
 EB CLI 3.8.4 （Python 2.7.1）
@@ -199,7 +200,7 @@ EB CLI 3.8.4 （Python 2.7.1）
 - 註10: [AWS Best Practices for Managing AWS Access Keys](http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html)
 
 #### 8-3-3	初始化EB CLI
-- 初始化步驟 Step1: `eb init`
+- 初始化命令: `eb init`
 
 #### 8-3-4	使用EB CLI上傳檔案
 - 參考修改後的[.htaccess](src/.htaccess)
@@ -222,12 +223,12 @@ RewriteRule . /index.php [L]
 
 #### 8-4-2	EB CLI搭配git的部署（deploy）
 - 只deploy還在staging區的code
-1. Step1: git add to staged area
+1. git add to staged area
 ```
 ~/eb$ git add .
 ```
 
-2. Step2: eb deploy staged area code
+2. eb deploy staged area code
 ```
 ~/eb$ eb deploy --staged
 ```
