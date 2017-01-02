@@ -90,12 +90,12 @@
 
 ## 第 7 章: 	架設Elastic Beanstalk
 ### 7-2: 	準備WordPress的安裝包
-- [AWS 官方文件，用Elastic Beanstalk架WordPress之下載WordPress](http://docs.aws.amazon.com/getting-started/latest/wordpress/download-wordpress.html)
-- [WordPress 下載](http://wordpress.org/download/)
+- [AWS 官方文件 - 用Elastic Beanstalk架WordPress之下載WordPress](http://docs.aws.amazon.com/getting-started/latest/wordpress/download-wordpress.html)
+- [WordPress 安裝包下載](http://wordpress.org/download/)
 - 編輯[wp-config.php](src/wp-config.php), DB資訊部份，修改以下程式碼
 
 找到以下
-```
+```php
 define('DB_NAME', 'database_name_here');
 define('DB_USER', 'username_here');
 define('DB_PASSWORD', 'password_here');
@@ -103,7 +103,7 @@ define('DB_HOST', 'localhost');
 ```
 
 把它改為
-```
+```php
 define('DB_NAME',     $_SERVER["RDS_DB_NAME"]);
 define('DB_USER',     $_SERVER["RDS_USERNAME"]);
 define('DB_PASSWORD', $_SERVER["RDS_PASSWORD"]);
@@ -113,7 +113,7 @@ define('DB_HOST',     $_SERVER["RDS_HOSTNAME"]);
 - 編輯wp-config.php, 安全性的設定，修改以下程式碼
 
 找到以下
-```
+```php
 define('AUTH_KEY',         'put your unique phrase here');
 define('SECURE_AUTH_KEY',  'put your unique phrase here');
 define('LOGGED_IN_KEY',    'put your unique phrase here');
@@ -125,7 +125,7 @@ define('NONCE_SALT',       'put your unique phrase here');
 ```
 
 把它改為
-```
+```php
 define('AUTH_KEY',         $_SERVER["AUTH_KEY"]);
 define('SECURE_AUTH_KEY',  $_SERVER["SECURE_AUTH_KEY"]);
 define('LOGGED_IN_KEY',    $_SERVER["LOGGED_IN_KEY"]);
@@ -138,25 +138,72 @@ define('NONCE_SALT',       $_SERVER["NONCE_SALT"]);
 
 - 加入以下程式讓URL從設定檔讀取
 
-```
+```php
 define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/');
 define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/');
 ```
 
-## 7-3
-- [AWS 官方文件，用Elastic Beanstalk架WordPress之上傳WordPress](http://docs.aws.amazon.com/getting-started/latest/wordpress/deploy-wordpress-on-aws.html)
+- 在Mac OS X或其他Linux的環境壓縮wordpress-x.y.z.zip的命令
+```
+zip -r ../wordpress-x.y.z.zip .
+```
 
-## 7-4
+### 7-3: 	架設Elastic Beanstalk的環境
+- [AWS 官方文件 - 用Elastic Beanstalk架WordPress之上傳WordPress](http://docs.aws.amazon.com/getting-started/latest/wordpress/deploy-wordpress-on-aws.html)
+- 註1: [AWS Elastic Beanstalk不同的Deployment Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.rolling-version-deploy.html)
+
+### 7-4: 	連接WordPress所需的DB
 - [WordPress Salt產生器](https://api.wordpress.org/secret-key/1.1/salt/)
 
-## 8-2
+## 第 8 章: 	上傳檔案到Elastic Beanstalk的環境
+### 8-2: 	安裝WordPress外掛（Plugins）
 - [Elastic Beanstalk Application Update]( http://docs.aws.amazon.com/getting-started/latest/wordpress/update-application-version.html)
 - [Amazon Web Service WordPress外掛](https://downloads.wordpress.org/plugin/amazon-web-services.1.0.zip)
-- 註8-3-1: [Elastic Beanstalk CLI安裝官方文件](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html)
-- 註8-3-2: [下載Python](https://www.python.org/downloads/)
-- 註8-3-3: [安裝pip](https://pip.pypa.io/en/stable/installing/)
-- [WordPress Basic WP的.htaccess內容](https://codex.wordpress.org/htaccess)
+- 防止客戶自行安裝plugins或themes，可在[wp-config.php](src/wp-config.php)裡加入
+```php
+define('DISALLOW_FILE_MODS',true);
+```
+- 註3: [將PHP Session儲存在DB的作法](http://docstore.mik.ua/orelly/webprog/pcook/ch08_07.htm)
+- 註4: [在Elastic Beanstalk環境中修改php.ini的作法](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_PHP.container.html#php-configuration-namespace)
+- 註5: [ELB Session Stickiness](https://aws.amazon.com/tw/blogs/aws/new-elastic-load-balancing-feature-sticky-sessions/)
 
+### 8-3: 	使用EB CLI加速原始碼部署
+#### 8-3-1	安裝EB CLI
+- 註6: [Elastic Beanstalk CLI安裝官方文件](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html)
+- 註7: [下載Python](https://www.python.org/downloads/)
+- 註8: [安裝pip](https://pip.pypa.io/en/stable/installing/)
+- 使用 `pip` 安裝 `awsebcli`
+```
+$ pip install --upgrade --user awsebcli
+```
+- 在Linux下把eb加到PATH環境變數
+1. Step1: 找到shell
+```
+$ ls -a ~
+```
+2. Step2: 加到shell
+```shell
+export PATH=~/.local/bin:$PATH
+```
+3. Step3: 載入profile
+```
+$ source ~/.bash_profile
+```
+4. Step4: 檢驗eb cli是否有成功
+```
+$ eb --version
+EB CLI 3.8.4 （Python 2.7.1）
+```
+#### 8-3-2	設定EB CLI的IAM權限
+- 註9: [把AWS keys放在GitHub上的杯具](http://www.theregister.co.uk/2015/01/06/dev_blunder_shows_github_crawling_with_keyslurping_bots/)
+- 註10: [AWS Best Practices for Managing AWS Access Keys](http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html)
+
+#### 8-3-3	初始化EB CLI
+- 初始化步驟 Step1: `eb init`
+
+#### 8-3-4	使用EB CLI上傳檔案
+- 參考修改後的[.htaccess](src/.htaccess)
+- [WordPress Basic WP的.htaccess內容](https://codex.wordpress.org/htaccess)
 ```
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
@@ -169,7 +216,21 @@ RewriteRule . /index.php [L]
 </IfModule>
 # END WordPress
 ```
-  
+### 8-4: 	結合Git使用
+#### 8-4-1	切換develop與master
+- 註11: [Git開發流程模式](http://nvie.com/posts/a-successful-git-branching-model/)
+
+#### 8-4-2	EB CLI搭配git的部署（deploy）
+- 只deploy還在staging區的code
+1. Step1: git add to staged area
+```
+~/eb$ git add .
+```
+
+2. Step2: eb deploy staged area code
+```
+~/eb$ eb deploy --staged
+```
 
 ## 9-2
 - 註9-2-1: [AWS全球 Edge Location](https://aws.amazon.com/tw/cloudfront/details/#edge-locations)

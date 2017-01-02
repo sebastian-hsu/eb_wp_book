@@ -63,6 +63,9 @@ define( 'DBI_AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_ACCESS_KEY'] );
 define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 
+// 防止客戶安裝plugins或themes
+define('DISALLOW_FILE_MODS',true);
+
 /**#@-*/
 
 /**
