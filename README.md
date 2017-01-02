@@ -1,4 +1,7 @@
-# AWS Elastic Beanstalk+WordPress：企業級網站架設實務(暫定) 參考資料
+# AWS Elastic Beanstalk+WordPress：企業級網站架設實務 參考資料
+
+* auto-gen TOC:
+{:toc}
 
 ## 推薦序
 - AWS Community Hero - [Cliff Lu](https://aws.amazon.com/tw/heroes/asia-pacific/clifflu/)
