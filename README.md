@@ -408,6 +408,11 @@ define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/');
 - 註3: [AWS CloudWatch 價格](https://aws.amazon.com/tw/cloudwatch/pricing/)
 
 #### 14-4-2: 過濾XML-RPC攻擊
+- 過濾xmlrpc的pattern
+```
+[ip, ip2, user, username, timestamp, request=*POST*xmlrpc.php*,...]
+```
+
 - 註4: [AWS CloudWatch Logs的Filter Pattern](http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html)
 - 註5: [Cerber Security & Limit Login Attempts WordPress Plugin](https://wordpress.org/plugins/wp-cerber/)
 - 註6: [關閉WordPress XML-RPC](http://wordpress.blog.tw/disable-xml-rpc/)
