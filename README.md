@@ -222,7 +222,7 @@ zip -r ../wordpress-x.y.z.zip .
 
 ### 7-3: 架設Elastic Beanstalk的環境
 - [AWS 官方文件 - 用Elastic Beanstalk架WordPress之上傳WordPress](http://docs.aws.amazon.com/getting-started/latest/wordpress/deploy-wordpress-on-aws.html)
-- 註1: [AWS Elastic Beanstalk不同的Deployment Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.rolling-version-deploy.html)
+- 註2: [AWS Elastic Beanstalk不同的Deployment Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.rolling-version-deploy.html)
 
 ### 7-4: 連接WordPress所需的DB
 - [WordPress Salt產生器](https://api.wordpress.org/secret-key/1.1/salt/)
